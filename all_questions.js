@@ -1,1 +1,0 @@
-var EMBEDDED_QUESTIONS = [];
