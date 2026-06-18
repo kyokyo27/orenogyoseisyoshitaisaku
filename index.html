@@ -1,0 +1,1105 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>行政書士試験 過去問マスター</title>
+    <style>
+        :root {
+            --primary: #2c3e50;
+            --accent: #e74c3c;
+            --success: #27ae60;
+            --warn: #f39c12;
+            --bg: #f5f6fa;
+            --card: #ffffff;
+            --text: #333333;
+            --subtext: #666666;
+            --border: #dddddd;
+            --opt-bg: #ffffff;
+            --opt-border: #dddddd;
+            --badge-sub-bg: #bee3f8; --badge-sub-fg: #2b6cb0;
+            --badge-fld-bg: #feebc8; --badge-fld-fg: #9c4221;
+            --expl-bg: #f8f9fa;
+            --expl-border: #6c757d;
+            --header-border: #2c3e50;
+        }
+        body.dark {
+            --primary: #5dade2;
+            --accent: #e74c3c;
+            --success: #2ecc71;
+            --warn: #f1c40f;
+            --bg: #1a1a2e;
+            --card: #16213e;
+            --text: #e0e0e0;
+            --subtext: #aaaaaa;
+            --border: #444466;
+            --opt-bg: #0f3460;
+            --opt-border: #5dade2;
+            --badge-sub-bg: #1a4a6b; --badge-sub-fg: #90cdf4;
+            --badge-fld-bg: #5a3010; --badge-fld-fg: #fbd38d;
+            --expl-bg: #0d1b2a;
+            --expl-border: #5dade2;
+            --header-border: #5dade2;
+        }
+        * { box-sizing: border-box; }
+        body {
+            font-family: 'Helvetica Neue', Arial, 'Hiragino Kaku Gothic ProN', Meiryo, sans-serif;
+            background-color: var(--bg);
+            color: var(--text);
+            line-height: 1.6;
+            margin: 0;
+            padding: 16px;
+            transition: background 0.3s, color 0.3s;
+        }
+        .container { max-width: 800px; margin: 0 auto; }
+        header {
+            text-align: center;
+            margin-bottom: 24px;
+            padding-bottom: 10px;
+            border-bottom: 3px solid var(--header-border);
+            position: relative;
+        }
+        h1 { color: var(--primary); margin: 0 0 4px; font-size: 1.4em; }
+        header p { margin: 0; color: var(--subtext); font-size: 0.9em; }
+        .dark-toggle {
+            position: absolute; top: 0; right: 0;
+            background: none; border: 2px solid var(--border);
+            border-radius: 20px; padding: 4px 12px;
+            color: var(--text); cursor: pointer; font-size: 13px;
+            width: auto; margin: 0;
+        }
+        .card {
+            background: var(--card);
+            border-radius: 10px;
+            padding: 20px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+            margin-bottom: 16px;
+        }
+        .view { display: none; }
+        .view.active { display: block; }
+
+        .nav-tabs { display: flex; gap: 8px; margin-bottom: 16px; flex-wrap: wrap; }
+        .nav-tab {
+            flex: 1; min-width: 80px;
+            background: var(--card); color: var(--subtext);
+            border: 2px solid var(--border); border-radius: 8px;
+            padding: 8px 4px; font-size: 13px; cursor: pointer;
+            transition: all 0.2s; width: auto; margin: 0;
+        }
+        .nav-tab.active, .nav-tab:hover {
+            background: var(--primary); color: white; border-color: var(--primary);
+        }
+
+        button {
+            background-color: var(--primary);
+            color: white; border: none;
+            padding: 12px 20px; font-size: 16px;
+            border-radius: 8px; cursor: pointer;
+            transition: opacity 0.2s;
+            width: 100%; margin-bottom: 10px;
+        }
+        button:hover { opacity: 0.85; }
+        button:active { opacity: 0.7; }
+        .btn-success { background-color: var(--success); }
+        .btn-warn { background-color: var(--warn); color: #333; font-weight: bold;}
+        .btn-gray { background-color: #7f8c8d; }
+        .btn-danger { background-color: var(--accent); }
+        .btn-interrupt { background-color: #95a5a6; }
+
+        .option-btn {
+            background-color: var(--opt-bg);
+            color: var(--text);
+            border: 2px solid var(--opt-border);
+            text-align: left; padding: 14px;
+            font-size: 15px; border-radius: 8px;
+            margin-bottom: 10px; width: 100%;
+            cursor: pointer; transition: all 0.15s;
+        }
+        .option-btn:hover:not(:disabled) { border-color: var(--primary); background-color: rgba(93,173,226,0.1); }
+        .option-btn:disabled { cursor: not-allowed; opacity: 0.7; }
+        .option-btn.correct { background-color: #d4edda; border-color: var(--success); color: #155724; }
+        .option-btn.incorrect { background-color: #f8d7da; border-color: var(--accent); color: #721c24; }
+        .option-btn.correct-answer { background-color: #d4edda; border-color: var(--success); color: #155724; }
+        body.dark .option-btn.correct { background-color: #1a4a2e; color: #90ee90; }
+        body.dark .option-btn.incorrect { background-color: #4a1a1a; color: #ffaaaa; }
+        body.dark .option-btn.correct-answer { background-color: #1a4a2e; color: #90ee90; }
+
+        .flag-btn {
+            background-color: var(--warn); color: #333;
+            font-weight: bold; margin-bottom: 12px;
+        }
+        .flag-btn.flagged { background-color: #d4ac0d; }
+
+        .badge {
+            display: inline-block; padding: 3px 8px;
+            font-size: 11px; font-weight: bold;
+            border-radius: 4px; margin-right: 4px;
+        }
+        .badge.subject { background-color: var(--badge-sub-bg); color: var(--badge-sub-fg); }
+        .badge.field   { background-color: var(--badge-fld-bg); color: var(--badge-fld-fg); }
+
+        .result-judge {
+            font-size: 22px; font-weight: bold;
+            text-align: center; padding: 10px;
+            border-radius: 8px; margin-bottom: 12px;
+        }
+        .judge-correct   { background-color: #d4edda; color: #155724; }
+        .judge-incorrect { background-color: #f8d7da; color: #721c24; }
+        body.dark .judge-correct   { background-color: #1a4a2e; color: #90ee90; }
+        body.dark .judge-incorrect { background-color: #4a1a1a; color: #ffaaaa; }
+
+        .question-text {
+            font-size: 16px; font-weight: bold;
+            margin-bottom: 20px; white-space: pre-wrap;
+            background: var(--expl-bg);
+            border-left: 4px solid var(--primary);
+            padding: 12px; border-radius: 4px;
+        }
+        .explanation-text {
+            background: var(--expl-bg);
+            padding: 15px;
+            border-left: 5px solid var(--expl-border);
+            white-space: pre-wrap;
+            font-size: 14px;
+            border-radius: 4px;
+        }
+
+        label { display: block; margin-top: 12px; font-weight: bold; color: var(--text); }
+        select, input[type="number"] {
+            width: 100%; padding: 10px;
+            font-size: 15px; border-radius: 8px;
+            margin-bottom: 12px; border: 2px solid var(--border);
+            background: var(--card); color: var(--text);
+        }
+        .checkbox-group { margin: 10px 0; display: flex; align-items: center; gap: 8px; }
+        .checkbox-group input { width: 18px; height: 18px; cursor: pointer; }
+        .checkbox-group label { display: inline; margin: 0; font-weight: normal; cursor: pointer; }
+
+        .progress-bar-wrap {
+            background: var(--border); border-radius: 4px;
+            height: 6px; margin-bottom: 14px; overflow: hidden;
+        }
+        .progress-bar-fill {
+            height: 100%; background: var(--primary);
+            border-radius: 4px; transition: width 0.3s;
+        }
+
+        .review-list-item, .flag-item {
+            padding: 10px 4px;
+            border-bottom: 1px solid var(--border);
+            font-size: 14px;
+        }
+        .review-list-item:last-child, .flag-item:last-child { border-bottom: none; }
+        .flag-item-q { font-weight: bold; margin-bottom: 4px; }
+        .flag-item-meta { color: var(--subtext); font-size: 12px; }
+
+        .stat-grid {
+            display: grid; grid-template-columns: 1fr 1fr;
+            gap: 10px; margin-bottom: 14px;
+        }
+        .stat-card {
+            background: var(--expl-bg); border-radius: 8px;
+            padding: 12px; text-align: center;
+        }
+        .stat-val { font-size: 26px; font-weight: bold; color: var(--primary); }
+        .stat-label { font-size: 12px; color: var(--subtext); margin-top: 2px; }
+
+        .alert-box {
+            background: #fff3cd; border: 1px solid #ffc107;
+            border-radius: 8px; padding: 10px 14px;
+            margin-bottom: 14px; font-size: 13px; color: #856404;
+        }
+        body.dark .alert-box { background: #3a2a00; border-color: #f1c40f; color: #f1c40f; }
+
+        .score-big {
+            font-size: 48px; font-weight: bold;
+            text-align: center; color: var(--accent);
+            margin: 16px 0;
+        }
+
+        h2 { color: var(--primary); margin-top: 0; font-size: 1.2em; }
+        h3 { color: var(--text); font-size: 1em; margin: 12px 0 6px; }
+
+        .history-bar-wrap { margin-bottom: 8px; }
+        .history-bar-label { font-size: 12px; color: var(--subtext); margin-bottom: 2px; }
+        .history-bar-track { background: var(--border); border-radius: 4px; height: 18px; overflow: hidden; position: relative; }
+        .history-bar-fill  { height: 100%; border-radius: 4px; background: var(--primary); transition: width 0.4s; display: flex; align-items: center; padding-left: 6px; }
+        .history-bar-text  { font-size: 11px; color: white; white-space: nowrap; }
+                /* ▼▼ 選択肢のメモ用トグルボタン用CSS ▼▼ */
+        .option-wrapper {
+            display: flex; align-items: stretch; gap: 8px; margin-bottom: 10px;
+        }
+        .option-wrapper .option-btn {
+            margin-bottom: 0; flex: 1;
+        }
+        .mark-btn {
+            width: 46px; flex-shrink: 0;
+            background-color: var(--card); color: var(--subtext);
+            border: 2px solid var(--border); border-radius: 8px;
+            font-size: 18px; font-weight: bold;
+            cursor: pointer; padding: 0; margin-bottom: 0;
+            transition: all 0.2s;
+            display: flex; align-items: center; justify-content: center;
+        }
+        .mark-btn:disabled { cursor: not-allowed; opacity: 0.7; }
+        .mark-btn.state-1 { color: var(--success); border-color: var(--success); } /* 〇 */
+        .mark-btn.state-2 { color: var(--accent); border-color: var(--accent); } /* ✖ */
+        .mark-btn.state-3 { color: var(--warn); border-color: var(--warn); } /* ▲ */
+        body.dark .mark-btn { background-color: var(--card); }
+        /* ▲▲ ここまで ▲▲ */
+
+/* 検索モーダル・ツリー階層用のカスタムスタイル */
+.search-subject { font-weight: bold; font-size: 1.15em; margin: 12px 0 6px 0; color: var(--primary); cursor: pointer; background: var(--bg); padding: 10px; border-radius: 6px; border: 1px solid var(--border); display: flex; align-items: center; }
+.search-field { font-weight: bold; margin: 6px 0 6px 20px; color: var(--warn); cursor: pointer; background: rgba(0,0,0,0.02); padding: 8px; border-radius: 6px; border-left: 4px solid var(--warn); border-top: 1px solid var(--border); border-right: 1px solid var(--border); border-bottom: 1px solid var(--border); }
+body.dark .search-field { background: rgba(255,255,255,0.05); }
+.search-q-item { margin: 4px 0 4px 40px; padding: 8px; cursor: pointer; border-bottom: 1px dashed var(--border); font-size: 0.95em; color: var(--text); border-radius: 4px; transition: background 0.2s; }
+.search-q-item:hover { background: rgba(0,0,0,0.05); }
+body.dark .search-q-item:hover { background: rgba(255,255,255,0.1); }
+.tree-content { display: block; }
+.tree-content.collapsed { display: none; }
+
+/* ▼▼ パスワード入場画面 ▼▼ */
+.lock-overlay {
+    position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+    background: var(--bg); z-index: 9999;
+    display: flex; align-items: center; justify-content: center;
+    padding: 16px;
+}
+.lock-card {
+    background: var(--card); border-radius: 10px; padding: 28px 24px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.15); max-width: 320px; width: 100%;
+    text-align: center;
+}
+.lock-card h2 { margin-top: 0; font-size: 1.2em; }
+.lock-card input {
+    width: 100%; padding: 12px; font-size: 16px; border-radius: 8px;
+    margin: 14px 0; border: 2px solid var(--border);
+    background: var(--card); color: var(--text); text-align: center;
+}
+.lock-card .lock-error { color: var(--accent); font-size: 13px; min-height: 18px; margin-bottom: 4px; }
+.app-hidden { display: none !important; }
+/* ▲▲ ここまで ▲▲ */
+
+    </style>
+</head>
+<body>
+<div id="lock-overlay" class="lock-overlay">
+    <div class="lock-card">
+        <h2>🔒 パスワードを入力</h2>
+        <input type="password" id="lock-password-input" placeholder="パスワード" autocomplete="off">
+        <div class="lock-error" id="lock-error"></div>
+        <button onclick="checkLockPassword()">入場する</button>
+    </div>
+</div>
+<div class="container app-hidden" id="app-container">
+    <header>
+        <button class="dark-toggle" onclick="toggleDark()" id="dark-btn">🌙 ダーク</button>
+        <h1>行政書士 過去問演習ルーム</h1>
+        <p>自分専用・超効率化個別アプリ</p>
+    </header>
+
+    <div class="nav-tabs">
+        <button class="nav-tab active" onclick="switchTab('top')" id="tab-top">📝 演習</button>
+        <button class="nav-tab" onclick="switchTab('flags')" id="tab-flags">⭐ 苦手</button>
+        <button class="nav-tab" onclick="switchTab('stats')" id="tab-stats">📊 統計</button>
+    </div>
+
+    <div id="view-top" class="view active">
+        <div id="sub-setting" class="card">
+            <h2>出題設定</h2>
+            <div id="data-warnings"></div>
+            
+            <label for="filter-subject">科目選択</label>
+            <select id="filter-subject" onchange="updateFieldFilter()">
+                <option value="all">すべて</option>
+            </select>
+            
+            <label for="filter-field">範囲（分野別）</label>
+            <select id="filter-field">
+                <option value="all">すべて</option>
+            </select>
+            
+            <label for="input-limit">出題数 (1〜100)</label>
+            <input type="number" id="input-limit" value="10" min="1" max="100">
+
+            <div class="checkbox-group">
+                <input type="checkbox" id="mode-random">
+                <label for="mode-random">問題をランダム順にする</label>
+            </div>
+            <div class="checkbox-group">
+                <input type="checkbox" id="mode-wrong-only">
+                <label for="mode-wrong-only" style="color:var(--accent);">ミスした苦手問題のみ（復習モード）</label>
+            </div>
+            
+            <button class="btn-success" onclick="startSession()" style="margin-top:16px; font-size:18px;">演習開始</button>
+            <button id="btn-resume" class="btn-warn" style="display:none; margin-top:10px;" onclick="resumeSession()">▶ 前回の続きから再開</button>
+            
+              <button onclick="openSearchModal()" style="background-color: var(--expl-border); margin-top: 10px;">🔍 問題を検索・閲覧する</button>
+        </div> <div id="search-modal" class="modal" style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.6); z-index:2000; justify-content:center; align-items:center; padding: 20px;">
+            <div class="card" style="width:100%; max-width:800px; max-height:85vh; overflow-y:auto; position:relative; box-shadow: 0 4px 20px rgba(0,0,0,0.3);">
+                <span onclick="closeSearchModal()" style="position:absolute; top:15px; right:20px; font-size:28px; cursor:pointer; font-weight:bold; color:var(--subtext);">&times;</span>
+                <h2 style="margin-top:0; border-bottom:2px solid var(--primary); padding-bottom:10px;">🔍 問題検索・閲覧辞書</h2>
+                <p style="color:var(--subtext); font-size:0.9em; margin-bottom:15px;">分野や章をクリックすると折りたたみを切り替えられます。問題をタップすると直接その問題へジャンプします。</p>
+                <input type="text" id="modal-search-input" placeholder="キーワード、問題文、解説からリアルタイム検索..." oninput="filterSearchTree()" style="width:100%; padding:12px; margin-bottom:20px; border:2px solid var(--border); border-radius:8px; font-size:1em; background:var(--card); color:var(--text);">
+                <div id="search-tree-container"></div>
+            </div>
+        </div>
+          
+            
+
+        <div id="sub-question" style="display:none;">
+            <div class="card">
+                <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:8px;">
+                    <span id="question-progress" style="font-weight:bold; color:var(--subtext);"></span>
+                    <button class="btn-interrupt" style="width:auto; padding:4px 12px; font-size:12px; margin:0;" onclick="interruptSession()">一時中断</button>
+                </div>
+                <div class="progress-bar-wrap">
+                    <div class="progress-bar-fill" id="progress-fill" style="width:0%"></div>
+                </div>
+
+                <div id="question-text" class="question-text"></div>
+                <div id="options-container"></div>
+                <button class="flag-btn" id="btn-toggle-flag" onclick="toggleFlagCurrentQuestion()">⭐ 苦手フラグをつける</button>
+            </div>
+        </div>
+
+        <div id="sub-explanation" style="display:none;">
+            <div class="card">
+                <div id="judge-box" class="result-judge"></div>
+                <h3>問題文</h3>
+                <div id="expl-question-text" class="question-text" style="font-size:14px; margin-bottom:12px;"></div>
+                
+                 <h3>解説</h3>
+                <div id="explanation-box" class="explanation-text"></div>
+                
+                <!-- ▼ここに追加▼ -->
+                <button class="flag-btn" id="btn-toggle-flag-expl" onclick="toggleFlagCurrentQuestion()" style="margin-top:20px;">⭐ 苦手フラグをつける</button>
+                
+                <button onclick="nextQuestion()" style="margin-top:10px;">次の問題へ →</button>
+            </div>
+        </div>
+
+        <div id="sub-result" style="display:none;">
+            <div class="card">
+                <h2 style="text-align:center;">演習結果</h2>
+                <div class="score-big"><span id="result-score">0</span>%</div>
+                <p style="text-align:center; color:var(--subtext);" id="result-summary"></p>
+                <h3>今回の不正解・苦手問題</h3>
+                <div id="wrong-questions-list" style="margin-bottom:20px;"></div>
+                <button class="btn-gray" onclick="backToSetting()">⬅ トップへ戻る</button>
+            </div>
+        </div>
+    </div>
+
+    <div id="view-flags" class="view">
+        <div class="card">
+            <h2>⭐ 苦手フラグ一覧</h2>
+            <div id="flag-list-container"></div>
+            <button class="btn-danger" onclick="clearAllFlags()" style="margin-top:12px;">🗑 フラグをすべてリセット</button>
+        </div>
+    </div>
+
+      <div id="view-stats" class="view">
+        <div class="card">
+            <h2>📊 学習統計</h2>
+            <div class="stat-grid" id="stat-grid"></div>
+            <h3>分野別正答率</h3>
+            <div id="field-stats"></div>
+            <h3>学習履歴（直近10セッション）</h3>
+            <div id="history-list"></div>
+            
+            <button class="btn-danger" onclick="clearStats()" style="margin-top:16px;">🗑 統計をリセット</button>
+
+            <hr style="border:none; border-top:2px dashed var(--border); margin: 24px 0;">
+            <h3 style="text-align:center;">💾 データのバックアップ・引継ぎ</h3>
+            <p style="font-size:12px; color:var(--subtext); text-align:center;">機種変更時や、万が一のデータ消失に備えて保存できます。</p>
+            
+            <button class="btn-success" onclick="exportData()" style="margin-bottom:10px; background-color:#2980b9;">📥 データをパソコン/スマホに保存</button>
+            <input type="file" id="import-file" style="display:none;" accept=".json" onchange="importData(event)">
+            <button class="btn-warn" onclick="document.getElementById('import-file').click();" style="margin-bottom:0;">📤 保存したデータを復元 (読込)</button>
+            </div>
+    </div>
+    
+
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore-compat.js"></script>
+
+    
+    
+ <!-- ここに問題jsの名前を記入してね -->
+<script src="all_questions.js"></script>
+
+<script>
+// ============================================================
+// グローバル状態
+// ============================================================
+let allQuestions = [];
+let sessionQuestions = [];
+let currentIndex = 0;
+let correctCount = 0;
+let currentQuestionRecord = null;
+let currentShuffledOptions = [];
+let sessionWrongIds = new Set();
+let answered = false; 
+let suspendedSession = null; // ★中断再開用変数
+
+let userData = {
+    wrongIds: [],
+    flaggedIds: [],
+    history: [],
+    fieldStats: {}
+};
+
+// ============================================================
+// 初期化
+// ============================================================
+window.addEventListener('DOMContentLoaded', async () => {
+    await loadUserData();
+    loadDarkMode();
+
+    allQuestions = EMBEDDED_QUESTIONS.filter(q => q && q.id !== undefined && typeof q.question === 'string' && Array.isArray(q.options) && q.answer !== undefined);
+    initFilters();
+});
+
+
+// ============================================================
+// クラウド保存（Firebase）の設定
+// ============================================================
+const firebaseConfig = {
+    apiKey: "AIzaSyBN3u_2-5Y9Gh5uZ-mjG7OMNDuLjpVsWCE",
+    authDomain: "orenogyoseisyoshitaisaku.firebaseapp.com",
+    projectId: "orenogyoseisyoshitaisaku",
+    storageBucket: "orenogyoseisyoshitaisaku.firebasestorage.app",
+    messagingSenderId: "1067686653589",
+    appId: "1:1067686653589:web:c1a667f166f7e1e295359c"
+};
+firebase.initializeApp(firebaseConfig);
+const db = firebase.firestore();
+
+const SAVE_DATA_ID = "my_gyosei_data"; // 自分専用のセーブデータ名
+
+async function loadUserData() {
+    try {
+        const doc = await db.collection('users').doc(SAVE_DATA_ID).get();
+        if (doc.exists) {
+            const parsed = doc.data();
+            if (!Array.isArray(parsed.wrongIds)) parsed.wrongIds = [];
+            if (!Array.isArray(parsed.flaggedIds)) parsed.flaggedIds = [];
+            if (!Array.isArray(parsed.history)) parsed.history = [];
+            if (!parsed.fieldStats) parsed.fieldStats = {};
+            userData = parsed;
+        } else {
+            // 初回接続時：パソコン内にデータが残っていればクラウドへ自動アップロード
+            const saved = localStorage.getItem('gyosei_user_data_v2');
+            if (saved) {
+                userData = JSON.parse(saved);
+                saveUserData();
+            }
+        }
+    } catch (e) {
+        console.error("データ読み込みエラー:", e);
+    }
+}
+
+function saveUserData() {
+    try {
+        db.collection('users').doc(SAVE_DATA_ID).set(userData).catch((e) => console.error("保存エラー:", e));
+    } catch (e) { console.error(e); }
+}
+
+
+// ============================================================
+// ダークモード
+// ============================================================
+function loadDarkMode() {
+    if (localStorage.getItem('darkMode') === '1') {
+        document.body.classList.add('dark');
+        document.getElementById('dark-btn').textContent = '☀ ライト';
+    }
+}
+
+function toggleDark() {
+    const isDark = document.body.classList.toggle('dark');
+    localStorage.setItem('darkMode', isDark ? '1' : '0');
+    document.getElementById('dark-btn').textContent = isDark ? '☀ ライト' : '🌙 ダーク';
+}
+
+// ============================================================
+// タブ切り替え
+// ============================================================
+function switchTab(tab) {
+    ['top', 'flags', 'stats'].forEach(t => {
+        document.getElementById('view-' + t).classList.remove('active');
+        document.getElementById('tab-' + t).classList.remove('active');
+    });
+    document.getElementById('view-' + tab).classList.add('active');
+    document.getElementById('tab-' + tab).classList.add('active');
+
+    if (tab === 'flags') renderFlagList();
+    if (tab === 'stats') renderStats();
+}
+
+// ============================================================
+// フィルター
+// ============================================================
+function initFilters() {
+    const subjects = [...new Set(allQuestions.map(q => q.subject))].filter(Boolean);
+    const sel = document.getElementById('filter-subject');
+    sel.innerHTML = '<option value="all">すべて</option>';
+    subjects.forEach(s => {
+        const o = document.createElement('option');
+        o.value = s; o.textContent = s;
+        sel.appendChild(o);
+    });
+    updateFieldFilter();
+}
+
+function updateFieldFilter() {
+    const sub = document.getElementById('filter-subject').value;
+    const fsel = document.getElementById('filter-field');
+    fsel.innerHTML = '<option value="all">すべて</option>';
+    const src = sub === 'all' ? allQuestions : allQuestions.filter(q => q.subject === sub);
+    [...new Set(src.map(q => q.field))].filter(Boolean).forEach(f => {
+        const o = document.createElement('option');
+        o.value = f; o.textContent = f;
+        fsel.appendChild(o);
+    });
+}
+
+// ============================================================
+// 演習開始・中断・再開
+// ============================================================
+function startSession() {
+    const sub = document.getElementById('filter-subject').value;
+    const field = document.getElementById('filter-field').value;
+    const isRnd = document.getElementById('mode-random').checked;
+    const isWrg = document.getElementById('mode-wrong-only').checked;
+    const limit = parseInt(document.getElementById('input-limit').value) || 10;
+
+    let filtered = allQuestions.filter(q => {
+        if (sub !== 'all' && q.subject !== sub) return false;
+        if (field !== 'all' && q.field !== field) return false;
+        if (isWrg && !userData.wrongIds.includes(q.id)) return false;
+        return true;
+    });
+
+    if (filtered.length === 0) {
+        alert('該当する問題がありません。');
+        return;
+    }
+
+    if (isRnd) filtered = shuffle(filtered);
+    
+    // ★出題数を制限
+    sessionQuestions = filtered.slice(0, limit);
+    
+    currentIndex = 0;
+    correctCount = 0;
+    sessionWrongIds = new Set();
+    answered = false;
+    suspendedSession = null; // 新規開始時に中断データをクリア
+    document.getElementById('btn-resume').style.display = 'none';
+
+    showSub('question');
+    renderQuestion();
+}
+
+// ★中断機能
+function interruptSession() {
+    if(confirm('演習を一時中断してトップに戻りますか？')) {
+        suspendedSession = {
+            questions: sessionQuestions,
+            index: currentIndex,
+            correct: correctCount,
+            wrongs: Array.from(sessionWrongIds)
+        };
+        document.getElementById('btn-resume').style.display = 'block';
+        backToSetting();
+    }
+}
+
+// ★再開機能
+function resumeSession() {
+    if(!suspendedSession) return;
+    sessionQuestions = suspendedSession.questions;
+    currentIndex = suspendedSession.index;
+    correctCount = suspendedSession.correct;
+    sessionWrongIds = new Set(suspendedSession.wrongs);
+    
+    document.getElementById('btn-resume').style.display = 'none';
+    suspendedSession = null; // 再開したらデータを消す
+    
+    showSub('question');
+    renderQuestion();
+}
+
+// ============================================================
+// ============================================================
+// 問題描画
+// ============================================================
+function renderQuestion() {
+    const q = sessionQuestions[currentIndex];
+    currentQuestionRecord = q;
+    answered = false;
+
+    const total = sessionQuestions.length;
+    document.getElementById('question-progress').textContent = (currentIndex + 1) + ' / ' + total + ' 問目';
+    document.getElementById('progress-fill').style.width = ((currentIndex / total) * 100) + '%';
+    document.getElementById('question-text').textContent = q.question;
+
+    const isFlagged = userData.flaggedIds.includes(q.id);
+    const flagBtn = document.getElementById('btn-toggle-flag');
+    if (flagBtn) {
+        flagBtn.textContent = isFlagged ? '⭐ 苦手フラグを外す' : '⭐ 苦手フラグをつける';
+        flagBtn.classList.toggle('flagged', isFlagged);
+    }
+    const flagBtnExpl = document.getElementById('btn-toggle-flag-expl');
+    if (flagBtnExpl) {
+        flagBtnExpl.textContent = isFlagged ? '⭐ 苦手フラグを外す' : '⭐ 苦手フラグをつける';
+        flagBtnExpl.classList.toggle('flagged', isFlagged);
+    }
+
+
+        let mappedOptions = q.options.map((opt, idx) => ({
+        text: opt || '',
+        originalNum: idx + 1,
+        isCorrect: (idx + 1) === Number(q.answer)
+    }));
+
+    // ★追加：選択肢をランダムにシャッフルする
+    mappedOptions = shuffle(mappedOptions); 
+
+    currentShuffledOptions = mappedOptions;
+
+
+    const container = document.getElementById('options-container');
+    container.innerHTML = '';
+    mappedOptions.forEach((opt, idx) => {
+        // ★選択肢とトグルボタンを横並びにするラッパー
+        const wrapper = document.createElement('div');
+        wrapper.className = 'option-wrapper';
+
+        // ★〇✖▲のトグルボタン
+        const markBtn = document.createElement('button');
+        markBtn.className = 'mark-btn';
+        markBtn.dataset.state = 0;
+        markBtn.textContent = ''; // 初期値は空白
+        markBtn.onclick = (e) => {
+            e.stopPropagation(); // 親要素へのクリックイベント伝播を防ぐ
+            if (answered) return; // 解答後は操作不可にする
+            let state = (parseInt(markBtn.dataset.state) + 1) % 4;
+            markBtn.dataset.state = state;
+            const marks = ['', '〇', '✖', '▲'];
+            const classes = ['', 'state-1', 'state-2', 'state-3'];
+            markBtn.textContent = marks[state];
+            markBtn.className = 'mark-btn ' + classes[state];
+        };
+
+        const btn = document.createElement('button');
+        btn.className = 'option-btn';
+        btn.textContent = (idx + 1) + '. ' + opt.text;
+        btn.onclick = () => checkAnswer(opt, btn, container);
+
+        wrapper.appendChild(markBtn);
+        wrapper.appendChild(btn);
+        container.appendChild(wrapper);
+    });
+}
+
+// ============================================================
+// 回答チェック
+// ============================================================
+function checkAnswer(selectedOption, clickedBtn, container) {
+    if (answered) return;
+    answered = true;
+
+    const allBtns = container.querySelectorAll('.option-btn');
+    allBtns.forEach((btn, idx) => {
+        btn.disabled = true;
+        const opt = currentShuffledOptions[idx];
+        if (opt.isCorrect) btn.classList.add('correct-answer');
+    });
+    
+    // ★解答後はマークボタンも無効化する
+    const allMarkBtns = container.querySelectorAll('.mark-btn');
+    allMarkBtns.forEach(btn => btn.disabled = true);
+    
+    if (!selectedOption.isCorrect) {
+        clickedBtn.classList.remove('correct-answer');
+        clickedBtn.classList.add('incorrect');
+    } else {
+        clickedBtn.classList.add('correct');
+    }
+
+    const q = sessionQuestions[currentIndex];
+    const isCorrect = selectedOption.isCorrect;
+
+    if (isCorrect) {
+        correctCount++;
+        userData.wrongIds = userData.wrongIds.filter(id => id !== q.id);
+    } else {
+        sessionWrongIds.add(q.id);
+        if (!userData.wrongIds.includes(q.id)) userData.wrongIds.push(q.id);
+    }
+
+    const fkey = (q.subject || '') + '::' + (q.field || '');
+    if (!userData.fieldStats[fkey]) userData.fieldStats[fkey] = { correct: 0, total: 0, subject: q.subject, field: q.field };
+    userData.fieldStats[fkey].total++;
+    if (isCorrect) userData.fieldStats[fkey].correct++;
+
+    saveUserData();
+
+    const judgeBox = document.getElementById('judge-box');
+    judgeBox.textContent = isCorrect ? '〇 正解！' : '× 不正解';
+    judgeBox.className = 'result-judge ' + (isCorrect ? 'judge-correct' : 'judge-incorrect');
+
+    // ★ここで解説画面用に問題文と「選択肢」をセットしています★
+    let fullQuestionText = q.question + '\n\n';
+    q.options.forEach((opt, idx) => {
+        fullQuestionText += (idx + 1) + '. ' + opt + '\n';
+    });
+    document.getElementById('expl-question-text').textContent = fullQuestionText;
+
+    let expl = '【正解の選択肢】 ' + q.answer + '番\n';
+    expl += '【あなたの回答】 ' + selectedOption.originalNum + '番\n\n';
+    expl += '--------------------------------------------\n';
+    expl += q.explanation || '（解説なし）';
+    document.getElementById('explanation-box').textContent = expl;
+
+    showSub('explanation');
+}
+
+
+// ============================================================
+// 次の問題へ
+// ============================================================
+function nextQuestion() {
+    currentIndex++;
+    if (currentIndex < sessionQuestions.length) {
+        showSub('question');
+        renderQuestion();
+    } else {
+        showResult();
+    }
+}
+
+// ============================================================
+// 結果表示
+// ============================================================
+function showResult() {
+    const total = sessionQuestions.length;
+    const pct = Math.round((correctCount / total) * 100);
+    document.getElementById('result-score').textContent = pct;
+    document.getElementById('result-summary').textContent = total + '問中 ' + correctCount + '問正解';
+
+    const q0 = sessionQuestions[0];
+    userData.history.unshift({
+        date: new Date().toLocaleString('ja-JP', { month: '2-digit', day: '2-digit', hour: '2-digit', minute: '2-digit' }),
+        correct: correctCount,
+        total: total,
+        pct: pct,
+        subject: q0 ? q0.subject : '',
+        field: q0 ? q0.field : ''
+    });
+    if (userData.history.length > 30) userData.history = userData.history.slice(0, 30);
+    saveUserData();
+
+    const container = document.getElementById('wrong-questions-list');
+    container.innerHTML = '';
+    const wrongQs = sessionQuestions.filter(q => sessionWrongIds.has(q.id));
+    if (wrongQs.length === 0) {
+        container.innerHTML = '<p style="color:var(--success);font-weight:bold;">🎉 全問正解です！</p>';
+    } else {
+        wrongQs.forEach(q => {
+            const div = document.createElement('div');
+            div.className = 'review-list-item';
+            div.innerHTML = '<span>[' + q.field + '] ' + q.question.substring(0, 30) + '…</span><span style="color:var(--accent);font-weight:bold;">要復習</span>';
+            container.appendChild(div);
+        });
+    }
+    showSub('result');
+}
+
+// ============================================================
+// 苦手フラグ・統計・その他ユーティリティ
+// ============================================================
+function toggleFlagCurrentQuestion() {
+    const qId = currentQuestionRecord.id;
+    const isFlagged = userData.flaggedIds.includes(qId);
+    if (isFlagged) { userData.flaggedIds = userData.flaggedIds.filter(id => id !== qId); } 
+    else { userData.flaggedIds.push(qId); }
+    saveUserData();
+    
+    const isNowFlagged = userData.flaggedIds.includes(qId);
+    const text = isNowFlagged ? '⭐ 苦手フラグを外す' : '⭐ 苦手フラグをつける';
+    
+    const flagBtn = document.getElementById('btn-toggle-flag');
+    if (flagBtn) {
+        flagBtn.textContent = text;
+        flagBtn.classList.toggle('flagged', isNowFlagged);
+    }
+    const flagBtnExpl = document.getElementById('btn-toggle-flag-expl');
+    if (flagBtnExpl) {
+        flagBtnExpl.textContent = text;
+        flagBtnExpl.classList.toggle('flagged', isNowFlagged);
+    }
+}
+
+
+function renderFlagList() {
+    const container = document.getElementById('flag-list-container');
+    const flagged = allQuestions.filter(q => userData.flaggedIds.includes(q.id));
+    if (flagged.length === 0) { container.innerHTML = '<p style="color:var(--subtext);">苦手フラグはありません。</p>'; return; }
+    container.innerHTML = flagged.map(q => {
+        return '<div class="flag-item"><div class="flag-item-q">' + q.question.substring(0, 60) + '…</div><div class="flag-item-meta">'
+            + '<span class="badge subject">' + q.subject + '</span><span class="badge field">' + q.field + '</span>'
+            + '　正解：' + q.answer + '番<button onclick="removeFlagById(' + q.id + ')" style="width:auto; padding:2px 10px; font-size:12px; background:var(--accent); border-radius:4px; margin:0 0 0 8px;">外す</button></div></div>';
+    }).join('');
+}
+
+function removeFlagById(id) { userData.flaggedIds = userData.flaggedIds.filter(x => x !== id); saveUserData(); renderFlagList(); }
+function clearAllFlags() { if (!confirm('リセットしますか？')) return; userData.flaggedIds = []; saveUserData(); renderFlagList(); }
+
+function renderStats() {
+    const totalAnswered = Object.values(userData.fieldStats).reduce((s, v) => s + v.total, 0);
+    const totalCorrect = Object.values(userData.fieldStats).reduce((s, v) => s + v.correct, 0);
+    const overallPct = totalAnswered > 0 ? Math.round(totalCorrect / totalAnswered * 100) : 0;
+    
+    document.getElementById('stat-grid').innerHTML = '<div class="stat-card"><div class="stat-val">' + totalAnswered + '</div><div class="stat-label">累計解答数</div></div><div class="stat-card"><div class="stat-val">' + overallPct + '%</div><div class="stat-label">累計正答率</div></div><div class="stat-card"><div class="stat-val">' + userData.history.length + '</div><div class="stat-label">セッション数</div></div><div class="stat-card"><div class="stat-val">' + userData.flaggedIds.length + '</div><div class="stat-label">苦手フラグ数</div></div>';
+}
+
+function clearStats() { if (!confirm('履歴をリセットしますか？')) return; userData.history = []; userData.fieldStats = {}; saveUserData(); renderStats(); }
+function shuffle(array) { const a = [...array]; for (let i = a.length - 1; i > 0; i--) { const j = Math.floor(Math.random() * (i + 1)); [a[i], a[j]] = [a[j], a[i]]; } return a; }
+function showSub(name) { ['setting', 'question', 'explanation', 'result'].forEach(n => { document.getElementById('sub-' + n).style.display = (n === name) ? 'block' : 'none'; }); window.scrollTo(0, 0); }
+function backToSetting() { showSub('setting'); updateFieldFilter(); }
+// ============================================================
+// データバックアップ・復元（エクスポート・インポート）
+// ============================================================
+function exportData() {
+    const dataStr = JSON.stringify(userData);
+    const blob = new Blob([dataStr], { type: 'application/json' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    
+    // 今日の日付をファイル名につける (例: gyosei_backup_2026-06-17.json)
+    const d = new Date();
+    const dateStr = d.getFullYear() + '-' + String(d.getMonth() + 1).padStart(2, '0') + '-' + String(d.getDate()).padStart(2, '0');
+    a.download = 'gyosei_backup_' + dateStr + '.json';
+    
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+    URL.revokeObjectURL(url);
+}
+
+function importData(event) {
+    const file = event.target.files[0];
+    if (!file) return;
+    
+    if (!confirm('現在のデータは上書きされます。よろしいですか？')) {
+        event.target.value = ''; // キャンセル時はリセット
+        return;
+    }
+
+    const reader = new FileReader();
+    reader.onload = function(e) {
+        try {
+            const parsed = JSON.parse(e.target.result);
+            if (parsed && typeof parsed === 'object') {
+                userData = parsed;
+                saveUserData();
+                alert('データを無事に復元しました！');
+                location.reload(); // 画面を更新して反映
+            } else {
+                throw new Error("Invalid format");
+            }
+        } catch (err) {
+            alert('ファイルの読み込みに失敗しました。正しいバックアップファイルを選択してください。');
+        }
+    };
+    reader.readAsText(file);
+    event.target.value = ''; // 連続で同じファイルを読み込めるようにリセット
+}
+
+// ==========================================
+// 🔍 階層型・問題検索＆辞書閲覧機能
+// ==========================================
+function openSearchModal() {
+    document.getElementById('search-modal').style.display = 'flex';
+    document.getElementById('modal-search-input').value = '';
+    buildSearchTree();
+}
+
+function closeSearchModal() {
+    document.getElementById('search-modal').style.display = 'none';
+}
+
+function buildSearchTree(keyword = '') {
+    const container = document.getElementById('search-tree-container');
+    container.innerHTML = '';
+    const lowerKeyword = keyword.toLowerCase().trim();
+
+    const tree = {};
+    allQuestions.forEach(q => {
+        if (lowerKeyword) {
+            const matchText = ((q.question || '') + (q.explanation || '') + (q.subject || '') + (q.field || '')).toLowerCase();
+            if (!matchText.includes(lowerKeyword)) return;
+        }
+        const sub = q.subject || "その他";
+        const fld = q.field || "未分類";
+        if (!tree[sub]) tree[sub] = {};
+        if (!tree[sub][fld]) tree[sub][fld] = [];
+        tree[sub][fld].push(q);
+    });
+
+    if (Object.keys(tree).length === 0) {
+        container.innerHTML = '<p style="color:var(--subtext); text-align:center; padding:20px;">該当する問題が見つかりません。</p>';
+        return;
+    }
+
+    for (const sub in tree) {
+        const subDiv = document.createElement('div');
+        const subHeader = document.createElement('div');
+        subHeader.className = 'search-subject';
+        subHeader.innerHTML = `📁 ${sub}`;
+        const subContent = document.createElement('div');
+        subContent.className = 'tree-content';
+        subHeader.onclick = () => toggleTreeCollapse(subContent);
+        subDiv.appendChild(subHeader);
+
+        for (const fld in tree[sub]) {
+            const fldDiv = document.createElement('div');
+            const fldHeader = document.createElement('div');
+            fldHeader.className = 'search-field';
+            fldHeader.innerHTML = `📂 ${fld} (${tree[sub][fld].length}問)`;
+            const fldContent = document.createElement('div');
+            fldContent.className = 'tree-content';
+            fldHeader.onclick = () => toggleTreeCollapse(fldContent);
+            fldDiv.appendChild(fldHeader);
+
+            tree[sub][fld].forEach(q => {
+                const qItem = document.createElement('div');
+                qItem.className = 'search-q-item';
+                const snippet = q.question.length > 45 ? q.question.substring(0, 45) + '...' : q.question;
+                qItem.innerHTML = `📄 <strong>ID:${q.id}</strong> ${snippet}`;
+                qItem.onclick = () => { closeSearchModal(); jumpToSpecificQuestion(q.id); };
+                fldContent.appendChild(qItem);
+            });
+            fldDiv.appendChild(fldContent);
+            subContent.appendChild(fldDiv);
+        }
+        subDiv.appendChild(subContent);
+        container.appendChild(subDiv);
+    }
+}
+
+function toggleTreeCollapse(element) { element.classList.toggle('collapsed'); }
+function filterSearchTree() { buildSearchTree(document.getElementById('modal-search-input').value); }
+
+function jumpToSpecificQuestion(targetId) {
+    const q = allQuestions.find(item => item.id == targetId);
+    if (!q) return;
+    
+    currentQuestionRecord = q;
+    answered = false;
+    
+    // 辞書閲覧時は、その1問だけのセッションとして扱う
+    sessionQuestions = [q];
+    currentIndex = 0;
+    correctCount = 0;
+    sessionWrongIds = new Set();
+
+    showSub('question');
+    
+    document.getElementById('question-progress').innerHTML = `<span style="color:var(--accent);">🔍 辞書モード (ID:${q.id})</span>`;
+    document.getElementById('progress-fill').style.width = '100%';
+    document.getElementById('question-text').textContent = q.question;
+    
+    const isFlagged = userData.flaggedIds.includes(q.id);
+    const text = isFlagged ? '⭐ 苦手フラグを外す' : '⭐ 苦手フラグをつける';
+    const flagBtn = document.getElementById('btn-toggle-flag');
+    if (flagBtn) { flagBtn.textContent = text; flagBtn.classList.toggle('flagged', isFlagged); }
+    const flagBtnExpl = document.getElementById('btn-toggle-flag-expl');
+    if (flagBtnExpl) { flagBtnExpl.textContent = text; flagBtnExpl.classList.toggle('flagged', isFlagged); }
+
+    currentShuffledOptions = q.options.map((opt, idx) => ({
+        text: opt || '',
+        originalNum: idx + 1,
+        isCorrect: (idx + 1) === Number(q.answer)
+    }));
+
+    const container = document.getElementById('options-container');
+    container.innerHTML = '';
+    currentShuffledOptions.forEach((opt, idx) => {
+        const wrapper = document.createElement('div');
+        wrapper.className = 'option-wrapper';
+
+        const markBtn = document.createElement('button');
+        markBtn.className = 'mark-btn';
+        markBtn.dataset.state = 0;
+        markBtn.textContent = '';
+        markBtn.onclick = (e) => {
+            e.stopPropagation();
+            if (answered) return;
+            let state = (parseInt(markBtn.dataset.state) + 1) % 4;
+            markBtn.dataset.state = state;
+            const marks = ['', '〇', '✖', '▲'];
+            const classes = ['', 'state-1', 'state-2', 'state-3'];
+            markBtn.textContent = marks[state];
+            markBtn.className = 'mark-btn ' + classes[state];
+        };
+
+        const btn = document.createElement('button');
+        btn.className = 'option-btn';
+        btn.textContent = opt.originalNum + '. ' + opt.text;
+        btn.onclick = () => checkAnswer(opt, btn, container);
+
+        wrapper.appendChild(markBtn);
+        wrapper.appendChild(btn);
+        container.appendChild(wrapper);
+    });
+
+    const nextBtn = document.querySelector('#sub-explanation button[onclick="nextQuestion()"]');
+    if (nextBtn) {
+        nextBtn.setAttribute('onclick', "backToSetting()");
+        nextBtn.textContent = '🏠 検索を終了してトップに戻る';
+    }
+}
+
+const originalStartSession = startSession;
+startSession = function() {
+    const nextBtn = document.querySelector('#sub-explanation button[onclick="backToSetting()"]');
+    if (nextBtn) {
+        nextBtn.setAttribute('onclick', "nextQuestion()");
+        nextBtn.textContent = '次の問題へ →';
+    }
+    originalStartSession();
+};
+
+// ==========================================
+// 🔒 パスワード入場画面
+// ==========================================
+const LOCK_PASSWORD = "gyoseisyoshi1";
+
+function checkLockPassword() {
+    const input = document.getElementById('lock-password-input');
+    const errorEl = document.getElementById('lock-error');
+    if (input.value === LOCK_PASSWORD) {
+        document.getElementById('lock-overlay').style.display = 'none';
+        document.getElementById('app-container').classList.remove('app-hidden');
+    } else {
+        errorEl.textContent = 'パスワードが正しくありません。';
+        input.value = '';
+        input.focus();
+    }
+}
+
+document.getElementById('lock-password-input').addEventListener('keydown', function(e) {
+    if (e.key === 'Enter') checkLockPassword();
+});
+document.getElementById('lock-password-input').focus();
+
+</script>
+</body>
+</html>
